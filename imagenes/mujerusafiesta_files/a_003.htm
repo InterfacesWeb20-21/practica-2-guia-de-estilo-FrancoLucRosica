@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <style>
+      body {
+        padding: 0;
+        margin:0;
+      }
+      #mute-button {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 18px;
+        height: 18px;
+        z-index:99999; /** Be sure to keep this high, to be over vpaid click elements **/
+        cursor: pointer;
+        padding: 17px;
+        display:none;
+      }
+
+      #main-container.with-controls #mute-button {
+        display:block;
+      }
+
+      #mute-button svg {
+        fill:#fff;
+        width: 18px;
+        height: 18px;
+      }
+
+      #mute-button svg.muted {
+        display:none;
+      }
+
+      #mute-button svg.not-muted {
+        display:block;
+      }
+
+      #mute-button.muted svg.muted {
+        display:block;
+      }
+
+      #mute-button.muted svg.not-muted {
+        display:none;
+      }
+
+      #close-button {
+        width: 36px;
+        height: 36px;
+        background-color: rgba(0,0,0, .5);
+        font-family: 'Roboto', sans-serif;
+        font-size: 12px;
+        color: #FFF;
+        opacity: .8;
+        cursor: pointer;
+        z-index: 99999; /** Be sure to keep this high, to be over vpaid click elements **/
+        position: absolute;
+        top: 10px;
+        right:10px;
+        display:none;
+      }
+
+      #main-container.with-controls #close-button {
+        display: block;
+      }
+
+      #close-button #loader {
+        width: 28px;
+        height: 28px;
+        left: 0;
+        margin: 4px;
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+      }
+      
+      /** replace button position for mobile and small screen **/
+      @media all and (max-width: 360px) {
+        #mute-button {
+          padding: 10px;
+        }
+
+        #close-button {
+          top: 4px;
+          right: 4px;
+        }
+      }
+
+      #main-container {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        position: absolute;
+        bottom:0px;
+        left: 0px;
+      }
+
+      #main-container.with-controls {
+        background-color: black;
+        transition-property: height;
+        transition-duration: 0.5s; /** close duration **/
+        transition-delay: 0s;
+        height: 0%;
+      }
+
+      #main-container.with-controls.show {
+        transition-duration: 0s;  /**open duration **//** Disabled for test to see if it have an impact on viewability **/
+        height: 100%;
+      }
+
+      /** PREVENT VIDEO TO BE DISPLAYED IN BACKGROUND IN IIV/FIV (they use their own video file) **/
+      #main-container #ad-container video {
+        display: none
+      }
+      #main-container.with-controls #ad-container video {
+        display: block
+      }
+
+    </style>
+  <style>
+      html, body {
+        margin: 0;
+      }</style><script type="text/javascript" async="" src="a_data_003/trk.js"></script></head>
+  <body>
+    <div id="main-container" class="container show">
+        <div id="mute-button" class="muted">
+          <svg class="muted" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M3 9v6h-1v-6h1zm13-7l-9 5v2.288l7-3.889v13.202l-7-3.889v2.288l9 5v-20zm-11 5h-5v10h5v-10zm17.324 4.993l1.646-1.659-1.324-1.324-1.651 1.67-1.665-1.648-1.316 1.318 1.67 1.657-1.65 1.669 1.318 1.317 1.658-1.672 1.666 1.653 1.324-1.325-1.676-1.656z"></path>
+          </svg>
+          <svg class="not-muted" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M3 9v6h-1v-6h1zm13-7l-9 5v2.288l7-3.889v13.202l-7-3.889v2.288l9 5v-20zm-11 5h-5v10h5v-10zm13.008 2.093c.742.743 1.2 1.77 1.198 2.903-.002 1.133-.462 2.158-1.205 2.9l1.219 1.223c1.057-1.053 1.712-2.511 1.715-4.121.002-1.611-.648-3.068-1.702-4.125l-1.225 1.22zm2.142-2.135c1.288 1.292 2.082 3.073 2.079 5.041s-.804 3.75-2.096 5.039l1.25 1.254c1.612-1.608 2.613-3.834 2.616-6.291.005-2.457-.986-4.681-2.595-6.293l-1.254 1.25z"></path>
+          </svg>
+        </div>
+        <div id="close-button">
+          <div class="skip_text" style="display: none">Skip Ad</div>
+          <div id="loader">
+            <svg viewBox="0 0 100 100" style="display: block; width: 100%;">
+              <path d="M 50,50 m 0,-47 a 47,47 0 1 1 0,94 a 47,47 0 1 1 0,-94" stroke="#000" stroke-width="6" fill-opacity="0">
+              </path>
+              <path d="M 50,50 m 0,-47 a 47,47 0 1 1 0,94 a 47,47 0 1 1 0,-94" stroke="#fff" stroke-width="6" fill-opacity="0" style="stroke-dasharray: 295.416, 295.416; stroke-dashoffset: 0;">
+              </path>
+            </svg>
+            <div class="progressbar-text" style="position: absolute; left: 50%; top: 50%; padding: 0px; margin: 0px; transform: translate(-50%, -50%); color: rgb(255, 255, 255);">
+              X
+            </div>
+          </div>
+        </div>
+        <div id="ad-container"><div style="display: block; width: 733px; height: 415px;" data-vast="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;VAST version=&quot;4&quot;&gt;
+  &lt;Ad id=&quot;247816366&quot;&gt;
+    &lt;InLine&gt;
+      &lt;AdSystem&gt;adnxs&lt;/AdSystem&gt;
+      &lt;AdTitle&gt;&lt;![CDATA[]]&gt;&lt;/AdTitle&gt;
+      &lt;Error&gt;&lt;![CDATA[https://ams1-ib.adnxs.com/vast_track/v2?info=ZgAAAAMArgAFAQmzY4hfAAAAABG44lhQJfWUbxmzY4hfAAAAACCuwZV2KAAwqR84qR9Ao9Y1SOzXxAFQ1a2GBlgvYgJFU2gBcAF4AIABAogBAZAB3QWYAZ8DoAEAqAGuwZV2sAEB&amp;s=a4330bcfed37f4ca86f4d99f6468924e4a326495&amp;event_type=4&amp;error_code=[ERRORCODE]]]&gt;&lt;/Error&gt;
+      &lt;Impression&gt;&lt;![CDATA[https://ib.adnxs.com/nop]]&gt;&lt;/Impression&gt;&lt;Impression&gt;&lt;![CDATA[https://s.seedtag.com/s/event?type=imp&amp;id=6062d111-9a62-4873-aef6-2e01bf06893e_AppNexus_1]]&gt;&lt;/Impression&gt;&lt;Impression&gt;&lt;![CDATA[https://ams1-ib.adnxs.com/it?an_audit=0&amp;referrer=https%3A%2F%2Fwww.bekiamoda.com%2Farticulos%2Fconsejos-elegir-zapatos-fiesta%2F&amp;e=wqT_3QKUD_BDlAcAAAMA1gAFAQizx6H8BRC4xeOC1aS9ym8Y0qPBgZ3tzJ0kKjYJqvHSTWIQiD8RqvHSTWIQiD8ZAAAAIK5HJUAhqvEJGwApESTwlTEAAADAzMwfQDDVrYYGOKkfQKkfSAJQrsGVdljQl0VgAGjPglZ4zJAFgAEBigEDVVNEkgEDRVVSmAEBoAEBqAEBsAEAuAEDwAEEyAEC0AEJ2AEA4AEA8AEAigJ3dWYoJ2EnLCAyOTc4OTI3LCAxNjAyNzczOTM5KTt1ZignaScsIDQ5NTI5NDgsIDE2MDI3NzM5MzkpOwE6AGMBHSQ2MTY1MDAzLCAxOjsAMHInLCAyNDc4MTYzNjY2HwD0IAGSAv0DIThXRHExd2lMMklFV0VLN0JsWFlZQUNEUWwwVXdCRGdBUUFSSXFSOVExYTJHQmxnQVlKSUZhQUJ3QW5nQ2dBRUNpQUVDa0FFQW1BRUFvQUVTcUFFRHNBRUF1UUdSN3dydzRYcUVQOEVCbDBNQW05SU9pRF9KQVdPZGV3T0NoZXdfMlFIb3BQZU5yejNyUC1BQjlLYXVBdlVCQUFBQUFKZ0NBS0FDQUxVQ0FBQUFBTDBDQUFBQUFOQUNBdGdDQXVBQ0FPZ0NBUGdDQUlBREFaZ0RBYWdEaTlpQkZyb0RDVUZOVXpFNk5UQXlPT0FENHlhQUJPakEzQVNJQk96QjNBU1FCQUNZQkFIQkJBQUFBQUFBQUFBQXlRUUFBQUFBBRIYTmdFQVBFRQUMBQEwQ0lCYVFucVFYb3BQZQm4CDdFRgUbBQEMREJCUQUJBQEIeVFVBQgFAQBOMigAAFouKADwQDRBV1hDZkFGcjVpVUJ2Z0Y3LWkxQVlJR0EwVlZVb2dHQUpBR0FaZ0dBS0VHZXhTdVItRjZoRC1vQmdHeUJpUUpBBWEFAQBSBQYJAQBaCQcFAQBoBQYFAUBDNEJnby6aAokBITR4WDlwQTYBAkAwSmRGSUFRb0FERjdGSzVINCHFfHpvSlFVMVRNVG8xTURJNFFPTW1TZWlrOTQydlBlc19VHfUAVx0MAFkdDABhHQwAYx0M9GkBZUFBLrICJDY4Y2Y2MDVjLTlkNTktNDJhYi04MzRmLTRmZjRmMWE3MmZhNNgCn0bgAr72MuoCQ2h0dHBzOi8vd3d3LmJla2lhbW9kYS5jb20vYXJ0aWN1bG9zL2NvbnNlam9zLWVsZWdpci16YXBhdG9zLWZpZXN0YS-AAwGIAwCQAwCYAxSgAwGqAwDAA-CoAcgDANgDqeMt4AMA6AMA-AMDgAQAkgQJL29wZW5ydGIymAQAogQMMjEzLjAuODcuMTU4qAQBsgQSCAEQBBjdBSCfAygBKAIwADgEuAQAwAQAyAQA0gQONDAwOSNBTVMxOjUwMjjaBAIIAeAEAPAErsGVdvoEEgkAAABgIrxDQBEAAABgUifYv4gFAZgFAKAF____________AaoFLTYwNjJkMTExLTlhNjItNDg3My1hZWY2LTJlMDFiZjA2ODkzZV9BcHBOZXh1c8AFAMkFAAAAAAAA8D_SBQkBZAUBgNgFAeAFAfAFL_oFBAgAEACQBgGYBgCyBukDQ083VS1HNgkG9EgBQUtBUUFFU0E3Q01BUF9BQUhfQUFBaVFHMXRkX1hfZmIzX2otXzU5OTl0MGVZMWY5XzdfdjIwempnZWRzLThOeWRfWF9MOFg2bU03dkIzNnBxNEt1UjRFdTNMQkFRRmxIT0hjVFFtUTZJa1ZxVExzYWsyTXI3TktKN1BFaWxNYk8yZFlHSHRmbjlYVHVaS1k3OTdzX19fel9fLV8tX19fNzVmX3ItM18zX3ZwZ2JTQVNZYWw4QkZrSll3RWswYVZRb2dRaFhFaDBBSUFLS0VZV2lhd2dKWEJUc3JnSV9RUU1BRUJxQWpBaUJCaUNqRmtFQUFBQUFTVVJBQ0FIZ2dFUUJFQWdBQkFDcEFRZ0FJMEFRV0FFZ1lCQUFLQWFGZ0JGRUVJRWhCa2NGUnlpQkFSSXRGQlBKR0FKUmM3R0VFSUlBQUEuSUcyTmQyLgEAXzouAQBoNi4BCF8yTSkuRHI0S3VSNGt1M2JCQVFGdEhPbiEuDFI2SWxCLgEYbWxzYmUyZDUuMF9aS1o3OTd2X19fN18NAQQ3NQkJLDNfdjd3QUG4BgHBBkUNLADwP9AGixDaBhYKEAkRGQFcEAAYAOAGBPIGAggAgAcBiAcAoAdAugcPQTVIGAAgADAAOOMkQADIB8yQBdIHDVVhATgs2gcGCAAQABgA4AcA&amp;s=0e17809c786e71f6e997d7141edae09c5a3fed3b]]&gt;&lt;/Impression&gt;
+      &lt;Creatives&gt;
+        &lt;Creative id=&quot;&quot;&gt;
+          &lt;Linear&gt;
+            &lt;Duration&gt;00:00:00&lt;/Duration&gt;
+            &lt;AdParameters&gt;&lt;![CDATA[{&quot;ads&quot;:[{&quot;content_source&quot;:&quot;rtb&quot;,&quot;buyer_member_id&quot;:4009,&quot;usersync_url&quot;:&quot;https%3A%2F%2Facdn.adnxs.com%2Fdmp%2Fasync_usersync.html&quot;,&quot;viewability&quot;:{&quot;config&quot;:&quot;tv=vh2-124&amp;d=1x1&amp;s=3222508&amp;st=0&amp;vctx=1&amp;ts=1602773939&amp;vc=iab;vid_ccr=1&amp;vjs=https%3A%2F%2Fcdn.adnxs.com%2Fv%2Fvideo%2F198%2Ftrk.js&amp;cb=https%3A%2F%2Fams1-ib.adnxs.com%2Fvevent%3Fan_audit%3D0%26referrer%3Dhttps%253A%252F%252Fwww.bekiamoda.com%252Farticulos%252Fconsejos-elegir-zapatos-fiesta%252F%26e%3DwqT_3QKUD_BDlAcAAAMA1gAFAQizx6H8BRC4xeOC1aS9ym8Y0qPBgZ3tzJ0kKjYJqvHSTWIQiD8RqvHSTWIQiD8ZAAAAIK5HJUAhqvEJGwApESTwlTEAAADAzMwfQDDVrYYGOKkfQKkfSAJQrsGVdljQl0VgAGjPglZ4zJAFgAEBigEDVVNEkgEDRVVSmAEBoAEBqAEBsAEAuAEDwAEEyAEC0AEJ2AEA4AEA8AEAigJ3dWYoJ2EnLCAyOTc4OTI3LCAxNjAyNzczOTM5KTt1ZignaScsIDQ5NTI5NDgsIDE2MDI3NzM5MzkpOwE6AGMBHSQ2MTY1MDAzLCAxOjsAMHInLCAyNDc4MTYzNjY2HwD0IAGSAv0DIThXRHExd2lMMklFV0VLN0JsWFlZQUNEUWwwVXdCRGdBUUFSSXFSOVExYTJHQmxnQVlKSUZhQUJ3QW5nQ2dBRUNpQUVDa0FFQW1BRUFvQUVTcUFFRHNBRUF1UUdSN3dydzRYcUVQOEVCbDBNQW05SU9pRF9KQVdPZGV3T0NoZXdfMlFIb3BQZU5yejNyUC1BQjlLYXVBdlVCQUFBQUFKZ0NBS0FDQUxVQ0FBQUFBTDBDQUFBQUFOQUNBdGdDQXVBQ0FPZ0NBUGdDQUlBREFaZ0RBYWdEaTlpQkZyb0RDVUZOVXpFNk5UQXlPT0FENHlhQUJPakEzQVNJQk96QjNBU1FCQUNZQkFIQkJBQUFBQUFBQUFBQXlRUUFBQUFBBRIYTmdFQVBFRQUMBQEwQ0lCYVFucVFYb3BQZQm4CDdFRgUbBQEMREJCUQUJBQEIeVFVBQgFAQBOMigAAFouKADwQDRBV1hDZkFGcjVpVUJ2Z0Y3LWkxQVlJR0EwVlZVb2dHQUpBR0FaZ0dBS0VHZXhTdVItRjZoRC1vQmdHeUJpUUpBBWEFAQBSBQYJAQBaCQcFAQBoBQYFAUBDNEJnby6aAokBITR4WDlwQTYBAkAwSmRGSUFRb0FERjdGSzVINCHFfHpvSlFVMVRNVG8xTURJNFFPTW1TZWlrOTQydlBlc19VHfUAVx0MAFkdDABhHQwAYx0M9GkBZUFBLrICJDY4Y2Y2MDVjLTlkNTktNDJhYi04MzRmLTRmZjRmMWE3MmZhNNgCn0bgAr72MuoCQ2h0dHBzOi8vd3d3LmJla2lhbW9kYS5jb20vYXJ0aWN1bG9zL2NvbnNlam9zLWVsZWdpci16YXBhdG9zLWZpZXN0YS-AAwGIAwCQAwCYAxSgAwGqAwDAA-CoAcgDANgDqeMt4AMA6AMA-AMDgAQAkgQJL29wZW5ydGIymAQAogQMMjEzLjAuODcuMTU4qAQBsgQSCAEQBBjdBSCfAygBKAIwADgEuAQAwAQAyAQA0gQONDAwOSNBTVMxOjUwMjjaBAIIAeAEAPAErsGVdvoEEgkAAABgIrxDQBEAAABgUifYv4gFAZgFAKAF____________AaoFLTYwNjJkMTExLTlhNjItNDg3My1hZWY2LTJlMDFiZjA2ODkzZV9BcHBOZXh1c8AFAMkFAAAAAAAA8D_SBQkBZAUBgNgFAeAFAfAFL_oFBAgAEACQBgGYBgCyBukDQ083VS1HNgkG9EgBQUtBUUFFU0E3Q01BUF9BQUhfQUFBaVFHMXRkX1hfZmIzX2otXzU5OTl0MGVZMWY5XzdfdjIwempnZWRzLThOeWRfWF9MOFg2bU03dkIzNnBxNEt1UjRFdTNMQkFRRmxIT0hjVFFtUTZJa1ZxVExzYWsyTXI3TktKN1BFaWxNYk8yZFlHSHRmbjlYVHVaS1k3OTdzX19fel9fLV8tX19fNzVmX3ItM18zX3ZwZ2JTQVNZYWw4QkZrSll3RWswYVZRb2dRaFhFaDBBSUFLS0VZV2lhd2dKWEJUc3JnSV9RUU1BRUJxQWpBaUJCaUNqRmtFQUFBQUFTVVJBQ0FIZ2dFUUJFQWdBQkFDcEFRZ0FJMEFRV0FFZ1lCQUFLQWFGZ0JGRUVJRWhCa2NGUnlpQkFSSXRGQlBKR0FKUmM3R0VFSUlBQUEuSUcyTmQyLgEAXzouAQBoNi4BCF8yTSkuRHI0S3VSNGt1M2JCQVFGdEhPbiEuDFI2SWxCLgEYbWxzYmUyZDUuMF9aS1o3OTd2X19fN18NAQQ3NQkJLDNfdjd3QUG4BgHBBkUNLADwP9AGixDaBhYKEAkRGQFcEAAYAOAGBPIGAggAgAcBiAcAoAdAugcPQTVIGAAgADAAOOMkQADIB8yQBdIHDVVhATgs2gcGCAAQABgA4AcA%26s%3D0e17809c786e71f6e997d7141edae09c5a3fed3b&amp;cet=0&amp;cecb=&amp;rdcb=https%3A%2F%2Fams1-ib.adnxs.com%2Frd_log%3Fan_audit%3D0%26referrer%3Dhttps%253A%252F%252Fwww.bekiamoda.com%252Farticulos%252Fconsejos-elegir-zapatos-fiesta%252F%26e%3DwqT_3QKiEfBDoggAAAMA1gAFAQizx6H8BRC4xeOC1aS9ym8Y0qPBgZ3tzJ0kKjYJqvHSTWIQiD8RqvHSTWIQiD8ZAAAAIK5HJUAhqvEJGwApESTwlTEAAADAzMwfQDDVrYYGOKkfQKkfSAJQrsGVdljQl0VgAGjPglZ4zJAFgAEBigEDVVNEkgEDRVVSmAEBoAEBqAEBsAEAuAEDwAEEyAEC0AEJ2AEA4AEA8AEAigJ3dWYoJ2EnLCAyOTc4OTI3LCAxNjAyNzczOTM5KTt1ZignaScsIDQ5NTI5NDgsIDE2MDI3NzM5MzkpOwE6AGMBHSQ2MTY1MDAzLCAxOjsAMHInLCAyNDc4MTYzNjY2HwD0IAGSAv0DIThXRHExd2lMMklFV0VLN0JsWFlZQUNEUWwwVXdCRGdBUUFSSXFSOVExYTJHQmxnQVlKSUZhQUJ3QW5nQ2dBRUNpQUVDa0FFQW1BRUFvQUVTcUFFRHNBRUF1UUdSN3dydzRYcUVQOEVCbDBNQW05SU9pRF9KQVdPZGV3T0NoZXdfMlFIb3BQZU5yejNyUC1BQjlLYXVBdlVCQUFBQUFKZ0NBS0FDQUxVQ0FBQUFBTDBDQUFBQUFOQUNBdGdDQXVBQ0FPZ0NBUGdDQUlBREFaZ0RBYWdEaTlpQkZyb0RDVUZOVXpFNk5UQXlPT0FENHlhQUJPakEzQVNJQk96QjNBU1FCQUNZQkFIQkJBQUFBQUFBQUFBQXlRUUFBQUFBBRIYTmdFQVBFRQUMBQEwQ0lCYVFucVFYb3BQZQm4CDdFRgUbBQEMREJCUQUJBQEIeVFVBQgFAQBOMigAAFouKADwQDRBV1hDZkFGcjVpVUJ2Z0Y3LWkxQVlJR0EwVlZVb2dHQUpBR0FaZ0dBS0VHZXhTdVItRjZoRC1vQmdHeUJpUUpBBWEFAQBSBQYJAQBaCQcFAQBoBQYFAUBDNEJnby6aAokBITR4WDlwQTYBAkAwSmRGSUFRb0FERjdGSzVINCHFfHpvSlFVMVRNVG8xTURJNFFPTW1TZWlrOTQydlBlc19VHfUAVx0MAFkdDABhHQwAYx0M8JVlQUEusgIkNjhjZjYwNWMtOWQ1OS00MmFiLTgzNGYtNGZmNGYxYTcyZmE02AKfRuACvvYy6gJDaHR0cHM6Ly93d3cuYmVraWFtb2RhLmNvbS9hcnRpY3Vsb3MvY29uc2Vqb3MtZWxlZ2lyLXphcGF0b3MtZmllc3RhL_ICEQoGQURWX0lEEgcyOTc4OTI38gISCgZDUEcBFCAIMTI5MTM3MTEBKQgFQ1AFFHFuPPICDQoIQURWX0ZSRVESATEFEDRSRU1fVVNFUhIBMPICDAkgFENPREUSAAUPCENQRxUPEAsKB0NQFQ4QEAoFSU8BYAQHNGnrAPIBIQRJTxUhOBMKD0NVU1RPTV9NT0RFTAErFADyAhoKFjIWABxMRUFGX05BTQVxCB4KGjYdAAhBU1QBPhBJRklFRAE-HA0KCFNQTElUAU3whgEwgAMBiAMAkAMAmAMUoAMBqgMAwAPgqAHIAwDYA6njLeADAOgDAPgDA4AEAJIECS9vcGVucnRiMpgEAKIEDDIxMy4wLjg3LjE1OKgEAbIEEggBEAQY3QUgnwMoASgCMAA4BLgEAMAEAMgEANIEDjQwMDkjQU1TMTo1MDI42gQCCAHgBADwBKFTMPoEEgkAAABgIrxDQBEBCTBSJ9i_iAUBmAUAoAX_EQHwQAGqBS02MDYyZDExMS05YTYyLTQ4NzMtYWVmNi0yZTAxYmYwNjg5M2VfQXBwTmV4dXPABQDJBQAAAAAAAPA_0gUJAWQFAYDYBQHgBQHwBS_6BQQIABAAkAYBmAYAsgbpA0NPN1UtRzYJBvRIAUFLQVFBRVNBN0NNQVBfQUFIX0FBQWlRRzF0ZF9YX2ZiM19qLV81OTk5dDBlWTFmOV83X3YyMHpqZ2Vkcy04TnlkX1hfTDhYNm1NN3ZCMzZwcTRLdVI0RXUzTEJBUUZsSE9IY1RRbVE2SWtWcVRMc2FrMk1yN05LSjdQRWlsTWJPMmRZR0h0Zm45WFR1WktZNzk3c19fX3pfXy1fLV9fXzc1Zl9yLTNfM192cGdiU0FTWWFsOEJGa0pZd0VrMGFWUW9nUWhYRWgwQUlBS0tFWVdpYXdnSlhCVHNyZ0lfUVFNQUVCcUFqQWlCQmlDakZrRUFBQUFBU1VSQUNBSGdnRVFCRUFnQUJBQ3BBUWdBSTBBUVdBRWdZQkFBS0FhRmdCRkVFSUVoQmtjRlJ5aUJBUkl0RkJQSkdBSlJjN0dFRUlJQUFBLklHMk5kMi4BAF86LgEAaDYuAQhfMk0pLkRyNEt1UjRrdTNiQkFRRnRIT24hLgxSNklsQi4BGG1sc2JlMmQ1LjBfWktaNzk3dl9fXzdfDQEENzUJCSwzX3Y3d0FBuAYBwQZFDSwA8D_QBosQ2gYWChAJERkBXBAAGADgBgTyBgIIAIAHAYgHAKAHQLoHD0E1SBgAIAAwADjjJEAAyAfMkAXSBw1VYQE4LNoHBggAEAAYAOAHAA..%26s%3D859512ab786bf2be35bc707b1a48d7d5b901aa29&amp;bridge=1.11.0&amp;rblog=auc=8040320775373775544;bm=4009;sm=4009;cr=247816366;pl=12687061&amp;vid_context=anoutstream;anbannerstream;anoverlayplayer&quot;},&quot;rtb&quot;:{&quot;content_b64&quot;:&quot;PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI_PjxWQVNUIHZlcnNpb249IjQuMCI-PEFkIGlkPSIyNDc4MTYzNjYiPjxXcmFwcGVyPjxBZFN5c3RlbSB2ZXJzaW9uPSIyLjAiPlNlZWR0YWc8L0FkU3lzdGVtPjxWQVNUQWRUYWdVUkk-PCFbQ0RBVEFbaHR0cHM6Ly9zLnNlZWR0YWcuY29tL2EvYWQ_YWR0YWdJZD01ZjczMTk4ZmNmMDQ4ODAwMmFhYmUxM2QmdmFzdD10cnVlJnB0PTU4MTUtMTQ1Mi0wMSZleHRDcmVhSWQ9MjQ3ODE2MzY2JmV4dENhbXBJZD00NjE2NTAwMyZleHRBZHZJZD0yOTc4OTI3JmV4dFB1YklkPTg3OTM5NSZnZHByPTEmZ2RwckNvbnNlbnQ9Q083VS1HNk83VS1HNkFLQVFBRVNBN0NNQVBfQUFIX0FBQWlRRzF0ZF9YX2ZiM19qLV81OTk5dDBlWTFmOV83X3YyMHpqZ2Vkcy04TnlkX1hfTDhYNm1NN3ZCMzZwcTRLdVI0RXUzTEJBUUZsSE9IY1RRbVE2SWtWcVRMc2FrMk1yN05LSjdQRWlsTWJPMmRZR0h0Zm45WFR1WktZNzk3c19fX3pfXy1fLV9fXzc1Zl9yLTNfM192cGdiU0FTWWFsOEJGa0pZd0VrMGFWUW9nUWhYRWgwQUlBS0tFWVdpYXdnSlhCVHNyZ0lfUVFNQUVCcUFqQWlCQmlDakZrRUFBQUFBU1VSQUNBSGdnRVFCRUFnQUJBQ3BBUWdBSTBBUVdBRWdZQkFBS0FhRmdCRkVFSUVoQmtjRlJ5aUJBUkl0RkJQSkdBSlJjN0dFRUlJQUFBLklHMk5kX1hfZmIzX2otXzU5OV90MGVZMWY5XzdfdjIwempoZWRzLThOeWRfWF9MOFhfMk03dkIzNnByNEt1UjRrdTNiQkFRRnRIT25jVFFtUjZJbFZxVExzYWsyTXI3TktKN1BFbWxzYmUyZFlHSHRmbjlYVF9aS1o3OTd2X19fN19fX19fX19fNzVfX19fX18zX3Y3d0FBJmNiPTQ3MTI2MDMzOCZjbGljaz1odHRwcyUzQSUyRiUyRmFtczEtaWIuYWRueHMuY29tJTJGY2xpY2slM0ZxdkhTVFdJUWlELXE4ZEpOWWhDSVB3QUFBQ0N1UnlWQXF2SFNUV0lRaUQtcThkSk5ZaENJUDdqaVdGQWw5WlJ2MGxFdzBHa3pPeVN6WTRoZkFBQUFBTldXd1FDcER3QUFxUThBQUFJQUFBQ3VZTVVPMEVzUkFBQUFBQUJWVTBRQVJWVlNBQUVBQVFCUGdRQUFBQUFCQXdRQ0FBQUFBS29BeWlRT0R3QUFBQUEuJTJGYmNyJTNEQUFBQUFBQUE4RDglM0QlMkZjbmQlM0QlMjUyMTR4WDlwQWlMMklFV0VLN0JsWFlZMEpkRklBUW9BREY3Rks1SDRYcUVQem9KUVUxVE1UbzFNREk0UU9NbVNlaWs5NDJ2UGVzX1VRQUFBQUFBQUFBQVdRQUFBQUFBQUFBQVlRQUFBQUFBQUFBQWFRQUFBQUFBQUFBQWNRQUFBQUFBQUFBQWVBQS4lMkZjY2ElM0ROREF3T1NOQlRWTXhPalV3TWpnJTNEJTJGYm4lM0Q4NDA0NCUyRmNsaWNrZW5jJTNEJnJlZlVybEVuYz1odHRwcyUzQSUyRiUyRnd3dy5iZWtpYW1vZGEuY29tJTJGYXJ0aWN1bG9zJTJGY29uc2Vqb3MtZWxlZ2lyLXphcGF0b3MtZmllc3RhJTJGXV0-PC9WQVNUQWRUYWdVUkk-PEltcHJlc3Npb24gaWQ9ImFkbnhzIj48IVtDREFUQVtodHRwczovL2liLmFkbnhzLmNvbS9ub3BdXT48L0ltcHJlc3Npb24-PFZpZXdhYmxlSW1wcmVzc2lvbiBpZD0iODA0MDMyMDc3NTM3Mzc3NTU0NCI-PFZpZXdhYmxlPjwhW0NEQVRBW2h0dHBzOi8vcmIuYWRueHMuY29tL3BhY2s_bG9nPWxvZ19yYl92aWV3X3Zhc3RfZXZlbnRzJmF1Y3Rpb25faWQ9ODA0MDMyMDc3NTM3Mzc3NTU0NCZyZXN1bHQ9MV1dPjwvVmlld2FibGU-PE5vdFZpZXdhYmxlPjwhW0NEQVRBW2h0dHBzOi8vcmIuYWRueHMuY29tL3BhY2s_bG9nPWxvZ19yYl92aWV3X3Zhc3RfZXZlbnRzJmF1Y3Rpb25faWQ9ODA0MDMyMDc3NTM3Mzc3NTU0NCZyZXN1bHQ9Ml1dPjwvTm90Vmlld2FibGU-PFZpZXdVbmRldGVybWluZWQ-PCFbQ0RBVEFbaHR0cHM6Ly9yYi5hZG54cy5jb20vcGFjaz9sb2c9bG9nX3JiX3ZpZXdfdmFzdF9ldmVudHMmYXVjdGlvbl9pZD04MDQwMzIwNzc1MzczNzc1NTQ0JnJlc3VsdD0zXV0-PC9WaWV3VW5kZXRlcm1pbmVkPjwvVmlld2FibGVJbXByZXNzaW9uPjxDcmVhdGl2ZXM-PENyZWF0aXZlIGlkPSIxNDMxMzg5MCIgYWRJRD0iMjQ3ODE2MzY2Ij48TGluZWFyPjwvTGluZWFyPjwvQ3JlYXRpdmU-PC9DcmVhdGl2ZXM-PC9XcmFwcGVyPjwvQWQ-PC9WQVNUPg..&quot;}}]}]]&gt;&lt;/AdParameters&gt;
+            &lt;TrackingEvents&gt;&lt;Tracking event=&quot;start&quot;&gt;&lt;![CDATA[https://s.seedtag.com/s/event?type=start&amp;id=6062d111-9a62-4873-aef6-2e01bf06893e_AppNexus_1]]&gt;&lt;/Tracking&gt;&lt;Tracking event=&quot;firstQuartile&quot;&gt;&lt;![CDATA[https://s.seedtag.com/s/event?type=firstQuartile&amp;id=6062d111-9a62-4873-aef6-2e01bf06893e_AppNexus_1]]&gt;&lt;/Tracking&gt;&lt;Tracking event=&quot;midpoint&quot;&gt;&lt;![CDATA[https://s.seedtag.com/s/event?type=midpoint&amp;id=6062d111-9a62-4873-aef6-2e01bf06893e_AppNexus_1]]&gt;&lt;/Tracking&gt;&lt;Tracking event=&quot;thirdQuartile&quot;&gt;&lt;![CDATA[https://s.seedtag.com/s/event?type=thirdQuartile&amp;id=6062d111-9a62-4873-aef6-2e01bf06893e_AppNexus_1]]&gt;&lt;/Tracking&gt;&lt;Tracking event=&quot;complete&quot;&gt;&lt;![CDATA[https://s.seedtag.com/s/event?type=complete&amp;id=6062d111-9a62-4873-aef6-2e01bf06893e_AppNexus_1]]&gt;&lt;/Tracking&gt;&lt;Tracking event=&quot;start&quot;&gt;&lt;![CDATA[https://ams1-ib.adnxs.com/vast_track/v2?info=ZgAAAAMArgAFAQmzY4hfAAAAABG44lhQJfWUbxmzY4hfAAAAACCuwZV2KAAwqR84qR9Ao9Y1SOzXxAFQ1a2GBlgvYgJFU2gBcAF4AIABAogBAZAB3QWYAZ8DoAEAqAGuwZV2sAEB&amp;s=a4330bcfed37f4ca86f4d99f6468924e4a326495&amp;event_type=2]]&gt;&lt;/Tracking&gt;&lt;Tracking event=&quot;skip&quot;&gt;&lt;![CDATA[https://ams1-ib.adnxs.com/vast_track/v2?info=ZgAAAAMArgAFAQmzY4hfAAAAABG44lhQJfWUbxmzY4hfAAAAACCuwZV2KAAwqR84qR9Ao9Y1SOzXxAFQ1a2GBlgvYgJFU2gBcAF4AIABAogBAZAB3QWYAZ8DoAEAqAGuwZV2sAEB&amp;s=a4330bcfed37f4ca86f4d99f6468924e4a326495&amp;event_type=3]]&gt;&lt;/Tracking&gt;&lt;Tracking event=&quot;firstQuartile&quot;&gt;&lt;![CDATA[https://ams1-ib.adnxs.com/vast_track/v2?info=ZgAAAAMArgAFAQmzY4hfAAAAABG44lhQJfWUbxmzY4hfAAAAACCuwZV2KAAwqR84qR9Ao9Y1SOzXxAFQ1a2GBlgvYgJFU2gBcAF4AIABAogBAZAB3QWYAZ8DoAEAqAGuwZV2sAEB&amp;s=a4330bcfed37f4ca86f4d99f6468924e4a326495&amp;event_type=5]]&gt;&lt;/Tracking&gt;&lt;Tracking event=&quot;midpoint&quot;&gt;&lt;![CDATA[https://ams1-ib.adnxs.com/vast_track/v2?info=ZgAAAAMArgAFAQmzY4hfAAAAABG44lhQJfWUbxmzY4hfAAAAACCuwZV2KAAwqR84qR9Ao9Y1SOzXxAFQ1a2GBlgvYgJFU2gBcAF4AIABAogBAZAB3QWYAZ8DoAEAqAGuwZV2sAEB&amp;s=a4330bcfed37f4ca86f4d99f6468924e4a326495&amp;event_type=6]]&gt;&lt;/Tracking&gt;&lt;Tracking event=&quot;thirdQuartile&quot;&gt;&lt;![CDATA[https://ams1-ib.adnxs.com/vast_track/v2?info=ZgAAAAMArgAFAQmzY4hfAAAAABG44lhQJfWUbxmzY4hfAAAAACCuwZV2KAAwqR84qR9Ao9Y1SOzXxAFQ1a2GBlgvYgJFU2gBcAF4AIABAogBAZAB3QWYAZ8DoAEAqAGuwZV2sAEB&amp;s=a4330bcfed37f4ca86f4d99f6468924e4a326495&amp;event_type=7]]&gt;&lt;/Tracking&gt;&lt;Tracking event=&quot;complete&quot;&gt;&lt;![CDATA[https://ams1-ib.adnxs.com/vast_track/v2?info=ZgAAAAMArgAFAQmzY4hfAAAAABG44lhQJfWUbxmzY4hfAAAAACCuwZV2KAAwqR84qR9Ao9Y1SOzXxAFQ1a2GBlgvYgJFU2gBcAF4AIABAogBAZAB3QWYAZ8DoAEAqAGuwZV2sAEB&amp;s=a4330bcfed37f4ca86f4d99f6468924e4a326495&amp;event_type=8]]&gt;&lt;/Tracking&gt;&lt;/TrackingEvents&gt;
+            &lt;VideoClicks&gt;&lt;ClickTracking&gt;&lt;![CDATA[https://s.seedtag.com/s/event?type=click&amp;id=6062d111-9a62-4873-aef6-2e01bf06893e_AppNexus_1&amp;url=]]&gt;&lt;/ClickTracking&gt;&lt;ClickTracking&gt;&lt;![CDATA[https://ams1-ib.adnxs.com/click?qvHSTWIQiD-q8dJNYhCIPwAAACCuRyVAqvHSTWIQiD-q8dJNYhCIP7jiWFAl9ZRv0lEw0GkzOySzY4hfAAAAANWWwQCpDwAAqQ8AAAIAAACuYMUO0EsRAAAAAABVU0QARVVSAAEAAQBPgQAAAAABAwQCAAAAAKoAyiQODwAAAAA./bcr=AAAAAAAA8D8=/cnd=%214xX9pAiL2IEWEK7BlXYY0JdFIAQoADF7FK5H4XqEPzoJQU1TMTo1MDI4QOMmSeik942vPes_UQAAAAAAAAAAWQAAAAAAAAAAYQAAAAAAAAAAaQAAAAAAAAAAcQAAAAAAAAAAeAA./cca=NDAwOSNBTVMxOjUwMjg=/bn=84044/]]&gt;&lt;/ClickTracking&gt;&lt;/VideoClicks&gt;
+            &lt;MediaFiles&gt;&lt;MediaFile id=&quot;20&quot; type=&quot;application/javascript&quot; width=&quot;640&quot; height=&quot;360&quot; delivery=&quot;progressive&quot; bitrate=&quot;NaN&quot; minBitrate=&quot;NaN&quot; maxBitrate=&quot;NaN&quot; maintainAspectRatio=&quot;true&quot; scalable=&quot;true&quot; codec=&quot;&quot; apiFramework=&quot;VPAID&quot;&gt;&lt;![CDATA[https://creatives.seedtag.com/appnexus-viewability-wrapper/updated/anwrapper-1.910.1.js]]&gt;&lt;/MediaFile&gt;&lt;/MediaFiles&gt;
+          &lt;/Linear&gt;
+        &lt;/Creative&gt;
+      &lt;/Creatives&gt;
+      &lt;Extensions&gt;&lt;/Extensions&gt;
+    &lt;/InLine&gt;
+  &lt;/Ad&gt;
+&lt;/VAST&gt;
+"><div style="position: relative; width: 733px; height: 415px; margin: 0px; padding: 0px; pointer-events: auto; bottom: 0px;" id="an_video_WR_1602773943319619"><video muted="true" playsinline="true" webkitplaysinline="true" preload="metadata" style="display: block; background: transparent none repeat scroll 0% 0%; position: absolute; top: 0px; left: 0px; z-index: 0; width: 733px; height: 415px; pointer-events: auto;"></video><div style="position: relative; width: 0px; height: 0px;"><iframe id="vpaid-1602773941449" style="position: static; margin: 0px; padding: 0px; width: 0px; height: 0px; border: 0px none; overflow: hidden; min-height: initial !important; min-width: initial !important;" scrolling="no" loading="eager" frameborder="0"></iframe></div><iframe style="position: relative; width: 0px; height: 0px; border: 0px none;" src="javascript:void;"></iframe><div style="position: absolute; width: 100%; height: 100%; top: 0px; left: 0px; visibility: unset; bottom: 0px;"><div class="st-reset"><div style="background-color: initial; border-radius: initial; margin: initial; padding: initial; border: initial; outline: initial; bottom: initial; top: 0px; right: initial; left: 0px; color: initial; width: 0px; height: 0px; display: initial; position: relative;" class="important-styled st-canvas-container  firfn4p"><div class="important-styled st-canvas-el f5jwgn9" style="background-color: initial; border-radius: initial; margin: initial; padding: initial; border: initial; outline: initial; bottom: initial; top: 0px; right: initial; left: 0px; color: initial; width: initial; height: initial; display: initial; position: absolute; transform-origin: 0px 0px 0px; transform: scale3d(1, 1, 1);"><div style="background-color: initial; border-radius: initial; margin: initial; padding: initial; border: initial; outline: initial; bottom: initial; top: 0px; right: initial; left: 0px; color: initial; width: 0px; height: 0px; display: initial; position: relative;" class="important-styled st-canvas-container undefined firfn4p"><div class="important-styled st-canvas-el f5jwgn9" style="background-color: initial; border-radius: initial; margin: initial; padding: initial; border: initial; outline: initial; bottom: initial; top: 0px; right: initial; left: 0px; color: initial; width: initial; height: initial; display: initial; position: absolute; transform-origin: 0px 0px 0px; transform: scale3d(1, 1, 1);"><div style="background-color: initial; border-radius: initial; margin: initial; padding: initial; border: initial; outline: initial; bottom: initial; top: 0px; right: initial; left: 0px; color: initial; width: 0px; height: 0px; display: initial; position: relative;" class="important-styled st-canvas-container undefined firfn4p"><div class="important-styled st-canvas-el f5jwgn9" style="background-color: initial; border-radius: initial; margin: initial; padding: initial; border: initial; outline: initial; bottom: initial; top: 0px; right: initial; left: 0px; color: initial; width: initial; height: initial; display: initial; position: absolute; transform-origin: 0px 0px 0px; transform: scale3d(1, 1, 1);"><div style="background: rgba(0, 0, 0, 0) none repeat scroll 0% 0%; border-radius: initial; margin: initial; padding: 0px; border: 0px none; outline: initial; bottom: initial; top: 0px; right: initial; left: 0px; color: initial; width: 733px; height: 415px; display: initial; float: none; max-height: none; max-width: none; min-height: 0px; min-width: 0px; visibility: visible; overflow: hidden; z-index: 1; position: absolute;" class="important-styled f1g3kyk2"><div class="important-styled display-render-wrapper f1g3kyk2" style="background: rgba(0, 0, 0, 0) none repeat scroll 0% 0%; border-radius: initial; margin: initial; padding: 0px; border: 0px none; outline: initial; bottom: initial; top: 0px; right: initial; left: 0px; color: initial; width: 733px; height: 415px; display: initial; float: none; max-height: none; max-width: none; min-height: 0px; min-width: 0px; visibility: visible; overflow: hidden; z-index: 1; position: absolute;"><iframe loading="eager" name="seedtag_creative" style="background: rgba(0, 0, 0, 0) none repeat scroll 0% 0%; border-radius: initial; margin: initial; padding: 0px; border: 0px none; outline: initial; bottom: initial; top: 0px; right: initial; left: 0px; color: initial; width: 733px; height: 415px; display: initial; float: none; max-height: none; max-width: none; min-height: 0px; min-width: 0px; visibility: visible; overflow: hidden; z-index: 1; position: absolute;" sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-top-navigation allow-top-navigation-by-user-activation" scrolling="no" class="important-styled f1g3kyk2" allowtransparency="allowtransparency" frameborder="0"></iframe></div></div></div></div></div></div></div></div></div></div><img style="display: none;" src="a_data_003/track_006.gif"><img style="display: none;" src="a_data_003/track_007.gif"><img style="display: none;" src="a_data_003/track_005.gif"><img style="display: none;" src="a_data_003/track_003.gif"><img style="display: none;" src="a_data_003/track_002.gif"><img style="display: none;" src="a_data_003/track_004.gif"><img style="display: none;" src="a_data_003/track.gif"><img style="display: none;" src="https://s.seedtag.com/at/track?d=d8jtOY4Uy27Pgs4vbHkswRKbY9jnWa1UMm0fhrHFYBAuQ8vksPHkasiWGgFwFHxC2cQ4FDOmot01KKx2AN74Gsrv3_ws9YUmGeH5rDcRajN83wlvEgZZ3A8aEpaKaRWiI8cVeD080s8oCo_0RgSJ5vznnmUGc2HdL_F6Cf9sCedzjJKMXK9jSAuXAVhuprT8KROuT2wKmc1l9zPAGNhcPXAZ-5bJTZ2WDmk5rd4kFJNbT3dwp1dimRcqfFZI5gfamhadgdTr8zdZJlSRu1amUEh9NzmQvt0urouthSsTcEPbn8qU05MPLh7Tx8goZcm0X3Tv52V0tWX2MBeEX0PLPx6cmLp9vo2xlOpCqG4mT6JC1OAkppnc_wid6HxPC1ZRNLebeOhAFUJSe4RL5jss2dPh-EgHifB9159PnflDiXQ"></div></div></div>
+    </div>
+  
+</body></html>

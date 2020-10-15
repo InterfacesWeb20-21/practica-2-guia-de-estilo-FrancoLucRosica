@@ -1,0 +1,1 @@
+document.write('<div id="adsense" style="display: none;">advertisement</div>');
