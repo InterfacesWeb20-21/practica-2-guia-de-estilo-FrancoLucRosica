@@ -40,14 +40,14 @@ nav ul li a {
     padding:10px;
     font-family: 'Oswald', sans-serif;
     text-decoration:none;
-    color:#FFF;
+    color:whitesmoke;
     }
 nav ul li a:hover {
-    background:#FFF;
+    background:whitesmoke;
     color:#3e3a3a
     }
 nav ul li a.active {
-    background:#FFF;
+    background:whitesmoke;
     color:#3e3a3a
     }
 .linea{
