@@ -9,12 +9,14 @@ A lo largo de la unidad 2 desarrollaremos el proyecto en HTML realizado en la un
 ## Actividad 1.1
 Cambiar la estructura de tu página web para que siga este formato, como ya hemos comentado, dentro del repositorio de Github debe colgar en el primer nivel el archivo index.html, así como, la carpeta assets. 
 Crea una carpeta llamada “www.web.com” y dentro de ella una carpeta llamada “assets”. A la hora de desarrollar un sitio web es recomendable llevar a cabo una estructura lógica de carpetas para facilitar la programación y posterior mantenimiento del sitio.
- 
+
+![Index HTML5](/images/arbol.png)
+
 ## Actividad 1.2
 Una vez creada la estructura de carpetas, modifica, si es necesario, la web para que contenga las etiquetas de HTML5 y esté conforme a la estructura de HTML5:
 > Página index.html:
 
-![Index HTML5](/indexhtml5.png)
+![Index HTML5](/images/indexhtml5.png)
  
 El modelo es orientativo, lo el menú no tiene por qué estar arriba, puede estar en el lateral, lo que se busca es que utilicéis la estructura predefinida en HTML5 y no con div´s 
 
