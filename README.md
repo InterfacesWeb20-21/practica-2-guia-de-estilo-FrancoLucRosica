@@ -13,7 +13,7 @@ Crea una carpeta llamada “www.web.com” y dentro de ella una carpeta llamada 
 ## Actividad 1.2
 Una vez creada la estructura de carpetas, modifica, si es necesario, la web para que contenga las etiquetas de HTML5 y esté conforme a la estructura de HTML5:
 Página index.html:
-![Index HTML5]/indexhtml5.png
+![Index HTML5]./(indexhtml5.png)
  
 El modelo es orientativo, lo el menú no tiene por qué estar arriba, puede estar en el lateral, lo que se busca es que utilicéis la estructura predefinida en HTML5 y no con div´s 
 
