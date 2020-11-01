@@ -1,0 +1,87 @@
+(function() {
+    var plcCountryDictionary = { "96584": "ar", "96585": "br", "96586": "co", "97699": "cl", "96589": "ec", "96061": "es", "96534": "mx", "96587": "pe", "96588": "us", "105724": "uy" };
+    var plc = "96061";
+    var countryCode = plcCountryDictionary[plc] || '';
+    SmartIntxt = {
+        config: {
+            outManUrl: "https://cdn.smartclip-services.com/v1/Storage-a482323/smartclip-services/ava/ava.js",
+            site_name: plc === "96061" ? 'bekia' : countryCode + '_bekia',
+            placement: '',
+            elementContainer: 'smartIntxt',
+            minAdWidth: '190',
+            maxAdWidth: '1900',
+            customLocation: true,
+            positioning: function() {
+                var config = Site_conf.intxt.positioning;
+                if (!config.customLocation) return;
+
+                config.deviceSettings = Site_conf.ava[SmartAva.utils.isMobile() ? "mobile" : "web"];
+                var urlReference = SmartIntxt.config.elementContainer;
+                var configReference = config.refChild === "" ? config.refElement : config.refElement + ">" + config.refChild;
+
+                var videoContainerCreator = {
+                    checkReference: function(reference) {
+                        if (videoContainerCreator.getElementsBySelector(reference).length !== 0) return true;
+                        if (reference.charAt(0) !== "#" && reference.charAt(0) !== ".") {
+                            if (videoContainerCreator.getElementsBySelector(videoContainerCreator.createSelector(reference, "#")).length !== 0) return true;
+                            if (videoContainerCreator.getElementsBySelector(videoContainerCreator.createSelector(reference, ".")).length !== 0) return true;
+                        }
+                    },
+                    checkReferenceById: function(reference) {
+                        if (videoContainerCreator.getElementsBySelector(videoContainerCreator.createSelector(reference, "#")).length !== 0) return true;
+                    },
+                    findCssSelector: function(reference) {
+                        if (videoContainerCreator.getElementsBySelector(reference).length !== 0) return reference;
+                        if (reference.charAt(0) !== "#" && reference.charAt(0) !== ".") {
+                            if (videoContainerCreator.getElementsBySelector(videoContainerCreator.createSelector(reference, "#")).length !== 0) return videoContainerCreator.createSelector(reference, "#");
+                            if (videoContainerCreator.getElementsBySelector(videoContainerCreator.createSelector(reference, ".")).length !== 0) return videoContainerCreator.createSelector(reference, ".");
+                        }
+                    },
+                    getElementsBySelector: function(selector) {
+                        var result = document.querySelectorAll(selector);
+                        if (result.length === 0) result = top.document.querySelectorAll(selector);
+                        return result;
+                    },
+                    createSelector: function(reference, selectorIdentifier) {
+                        return selectorIdentifier + reference;
+                    },
+                    createVideoContainer: function(reference, positionSelector, referenceChild = 0) {
+                        var containerId = "smartIntxt-" + Math.round(Math.random() * 1e8);
+                        var domReference = videoContainerCreator.getElementsBySelector(reference)[referenceChild];
+                        var videoContainer = '<div id="' + containerId + '"></div>';
+                        domReference.insertAdjacentHTML(positionSelector, videoContainer);
+                        return containerId;
+                    }
+                };
+
+                var videoPositioninigInformation = {
+                    existUrlReference: urlReference !== "" && videoContainerCreator.checkReferenceById(urlReference),
+                    existConfigReference: configReference !== "" && videoContainerCreator.checkReference(configReference),
+                    configCssSelectorInPage: function() {
+                        if (videoPositioninigInformation.existConfigReference) return videoContainerCreator.findCssSelector(configReference);
+                    },
+                    isJumpEnabled: config.deviceSettings.enabled && config.deviceSettings.keepFixed,
+                };
+
+                function videoContainerPositioner() {
+                    if (videoPositioninigInformation.existUrlReference) return;
+                    if (videoPositioninigInformation.existConfigReference) {
+                        SmartIntxt.config.elementContainer = videoContainerCreator.createVideoContainer(videoPositioninigInformation.configCssSelectorInPage(), config.posSelector, config.position);
+                        return;
+                    }
+                    if (config.deviceSettings.keepFixed) {
+                        SmartIntxt.config.elementContainer = videoContainerCreator.createVideoContainer("body", "beforeend");
+                    } else {
+                        SmartIntxt.config.elementContainer = "";
+                    }
+                }
+
+                videoContainerPositioner();
+            }
+        },
+    };
+    var outmanLoader = document.createElement("script");
+    outmanLoader.type = "text/javascript";
+    outmanLoader.src = SmartIntxt.config.outManUrl;
+    document.body.appendChild(outmanLoader);
+})();

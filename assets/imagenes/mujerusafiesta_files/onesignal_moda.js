@@ -1,0 +1,1 @@
+var OneSignal=window.OneSignal||[];OneSignal.push(function(){OneSignal.init({appId:"892f8bb5-9c84-461f-9168-c8f1f0538f10",});});

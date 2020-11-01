@@ -1,0 +1,9 @@
+Adform=window.Adform||{};
+Adform.host="https://track.adform.net";
+Adform.shost="https://s1.adform.net";
+Adform.scriptBase=Adform.shost+"/banners/scripts/";
+Adform.cache="620";
+Adform.ADFBannerData={"URL":"https://track.adform.net/adfserve/?CC=1&bn=40838140;click=https://adclick.g.doubleclick.net/pcs/click?xai=AKAOjstm42RF6WZXP0_aoGUwTxYjWjLbKrcl21NqmeB5NfE4V3Jt8sso8Jmk2JIGTxDqadvSXS71oI1sU8r1Mp475Z6WyVYQMMUPdfDMIsACoVTyzOw8_osGQ_NtqhGeuWN-7ihThLk-bL2s_76g5XWtwLnPoY7_NhY0UaIhHYry5LMc9MQd3jvr8SZgE4MYpag8iYpsIdDfab0HNASck9iLF1U4R416nYRLgYK2A2L-DKuF0xt90EIGhPaQZNI7Y1KkxuvbAdfglRnTLQ&sai=AMfl-YQwpLZ5ZjeSrARHsOBYG7v8MCtpDGWTcTrnwyOktBYNYxQmH8vrUi1vrDtT-lJ6RYR7g1ly0NgnwnOg8RvE7pwf7e2mPAXTRikxT1s9LTBGGRX0fb3ckprZGHWFRxud&sig=Cg0ArKJSzAbcjyVKGUMvEAE&urlfix=1&adurl=","BN":40838140,"BSURL":"https://cdn.doubleverify.com/dvbs_src.js?ctx=10282573&cmp=2184874&plc=40838140&sid=1408123&dvregion=0&unit=300x250","BSDATA":"1","READ_CONSENT":true};
+if(!Adform.ADFBannerParams)Adform.ADFBannerParams=[];
+Adform.ADFBannerParams.push(Adform.ADFBannerData);
+typeof Adform.ADFUtilInstance=="undefined"?document.write('<scr'+'ipt type="text/javascript" src="https://s1.adform.net/stoat/620/s1.adform.net/bootstrap.js"></scr'+'ipt>'):new Adform.ADFBanner();
