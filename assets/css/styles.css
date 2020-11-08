@@ -2,6 +2,10 @@
 /* Aspectos generales */
 /* /////////////////////////////////////////////////////// */
 /* /////////////////////////////////////////////////////// */
+* {
+    margin: 0;
+    padding: 0;
+  }
 html{
     min-height: 100%;
     position: relative;
@@ -136,8 +140,12 @@ aside img{
 #img_form img{
     width: 80%;
 }
+#form p {
+    padding: 5%;
+}
 #campos{
    padding-left:7%;
+   
 
 }
 /* /////////////////////////////////////////////////////// */
@@ -154,7 +162,7 @@ footer{
     width: 100%;
     overflow: hidden;
     text-align: center;
-    font-size: 10px;
+    font-size: 0.8em;
 }
 .datos{
     width: 30%;
@@ -178,20 +186,24 @@ footer{
 /* Tabla */
 /* /////////////////////////////////////////////////////// */
 table {
-    width: 50%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
     border-collapse: collapse;
 }
+.tabla h2{
+    text-align: center;
+}
 th{
     background-color: black;
     color: white;
-    text-align: left;
+    text-align: center;
     padding-top: 12px;
     padding-bottom: 12px;
 }
 td, th{
     border: 1px solid #ddd;
+    text-align: center;
     padding: 8px;
 }
 /* /////////////////////////////////////////////////////// */
